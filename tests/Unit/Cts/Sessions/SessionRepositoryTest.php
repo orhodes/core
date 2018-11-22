@@ -3,11 +3,11 @@
 namespace Tests\Unit\Cts\Sessions;
 
 use App\Models\Cts\Member;
+use App\Models\Cts\Session;
 use App\Models\Mship\Account;
+use App\Repositories\Cts\SessionRepository;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\UnitTestCase;
-use App\Repositories\Cts\SessionRepository;
-use App\Models\Cts\Session;
 
 class SessionRepositoryTest extends UnitTestCase
 {
