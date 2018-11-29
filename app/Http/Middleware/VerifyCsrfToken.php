@@ -22,6 +22,6 @@ class VerifyCsrfToken extends Middleware
         'webhook/*',
         'frame.php',
         'slack-test',
-        'slack-submit'
+        'slack-submit',
     ];
 }

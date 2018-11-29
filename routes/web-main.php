@@ -1,13 +1,10 @@
 <?php
 
 Route::post('slack-submit', function () {
-
     var_dump('Success');
-
 });
 
 Route::post('slack-test', function () {
-
     $dialog = [
         'callback_id' => 'jira-ticket-creator',
         'title' => 'Add ATC Request',
@@ -20,15 +17,15 @@ Route::post('slack-test', function () {
                 'options' => [
                     [
                         'label' => 'OTS Request',
-                        'value' => 'ots_request'
-                    ]
-                ]
+                        'value' => 'ots_request',
+                    ],
+                ],
             ],
             [
                 'type' => 'textarea',
                 'label' => 'Description',
                 'name' => 'description',
-                'max_length' => 1000
+                'max_length' => 1000,
             ],
             [
                 'type' => 'select',
@@ -36,9 +33,9 @@ Route::post('slack-test', function () {
                 'name' => 'assignee',
                 'data_source' => 'users',
                 'optional' => true,
-                'hint' => 'Leave this blank if you are unsure.'
-            ]
-        ]
+                'hint' => 'Leave this blank if you are unsure.',
+            ],
+        ],
     ];
 
     $dialog2 = [
@@ -53,29 +50,29 @@ Route::post('slack-test', function () {
                 'options' => [
                     [
                         'label' => 'DSG',
-                        'value' => 'dsg'
+                        'value' => 'dsg',
                     ],
                     [
                         'label' => 'Training',
-                        'value' => 'training'
+                        'value' => 'training',
                     ],
                     [
                         'label' => 'Community',
-                        'value' => 'community'
+                        'value' => 'community',
                     ],
                     [
                         'label' => 'Marketing',
-                        'value' => 'marketing'
+                        'value' => 'marketing',
                     ],
                     [
                         'label' => 'Operations',
-                        'value' => 'operations'
+                        'value' => 'operations',
                     ],
                     [
                         'label' => 'Web Services',
-                        'value' => 'web'
-                    ]
-                ]
+                        'value' => 'web',
+                    ],
+                ],
             ],
             [
                 'type' => 'text',
@@ -87,7 +84,7 @@ Route::post('slack-test', function () {
                 'type' => 'textarea',
                 'label' => 'Description',
                 'name' => 'description',
-                'max_length' => 1000
+                'max_length' => 1000,
             ],
             [
                 'type' => 'select',
@@ -95,23 +92,23 @@ Route::post('slack-test', function () {
                 'name' => 'assignee',
                 'data_source' => 'users',
                 'optional' => true,
-                'hint' => 'Leave this blank if you are unsure.'
-            ]
-        ]
+                'hint' => 'Leave this blank if you are unsure.',
+            ],
+        ],
     ];
 
-    $trigger = filter_input(INPUT_POST, "trigger_id");
+    $trigger = filter_input(INPUT_POST, 'trigger_id');
 
     $query = [
         'token' => '',
         'dialog' => json_encode($dialog),
-        'trigger_id' => $trigger
+        'trigger_id' => $trigger,
     ];
 
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, 'https://slack.com/api/dialog.open');
     curl_setopt($ch, CURLOPT_HTTPHEADER, [
-        'Content-Type: application/x-www-form-urlencoded'
+        'Content-Type: application/x-www-form-urlencoded',
     ]);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
