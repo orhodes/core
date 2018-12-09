@@ -19,7 +19,7 @@ class Award extends Model
 
     protected $fillable = [
         'account_id',
-        'award_id'
+        'award_id',
     ];
 
     protected static function boot()

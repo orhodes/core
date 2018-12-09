@@ -2,8 +2,8 @@
 
 namespace App\Models\Smartcars;
 
-use Illuminate\Database\Eloquent\Model;
 use App\Models\Concerns\Awardable;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Models\Smartcars\Flight

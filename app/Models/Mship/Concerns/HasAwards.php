@@ -14,10 +14,10 @@ trait HasAwards
 
     public function award(?Awardable $award)
     {
-        if(!is_null($award)) {
+        if (!is_null($award)) {
             $this->awards()->create([
                 'account_id' => $this->id,
-                'award_id' => $award->id
+                'award_id' => $award->id,
             ]);
         }
     }
