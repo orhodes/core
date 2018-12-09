@@ -20,7 +20,7 @@ class AwardsTest extends TestCase
     {
         $this->fail('Test must be implemented');
     }
-    
+
     /** @test */
     public function it_returns_all_accounts_that_have_an_award()
     {

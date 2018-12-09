@@ -37,7 +37,7 @@ class Awards extends Command
      */
     public function handle()
     {
-        /**
+        /*
          * TODO: Implement command to issue awards to members who should have them from community_awards.
          * This will be useful for the initial deployment of these awards and to run nightly to ensure everything stays in sync.
          */
