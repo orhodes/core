@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Members;
 
-use Illuminate\Console\Command;
+use App\Console\Commands\Command;
 
 class Awards extends Command
 {
