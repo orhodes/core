@@ -3,6 +3,7 @@
 namespace App\Models\Smartcars;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\Awardable;
 
 /**
  * App\Models\Smartcars\Flight
@@ -56,6 +57,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Flight extends Model
 {
+    use Awardable;
+
     protected $table = 'smartcars_flight';
     protected $fillable = [
         'code',

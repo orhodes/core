@@ -21,6 +21,7 @@ class EvaluateFlightCriteria implements ShouldQueue
         $criteria = $flight->criteria->sortBy('order');
         $pirep = $bid->pirep;
         $posreps = $bid->posreps->sortBy('created_at');
+        $account = $bid->account;
 
         foreach ($posreps as $posrep) {
             $positionValid = false;
@@ -86,6 +87,7 @@ class EvaluateFlightCriteria implements ShouldQueue
 
         $pirep->markPassed('Success: Flight passed all required checks');
         $pirep->save();
+        $account->award($flight->award);
     }
 
     protected function minutes($time)

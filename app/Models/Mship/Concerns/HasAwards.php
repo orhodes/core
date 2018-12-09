@@ -12,11 +12,13 @@ trait HasAwards
         return $this->hasMany(Award::class);
     }
 
-    public function award(Awardable $award)
+    public function award(?Awardable $award)
     {
-        return $this->awards()->create([
-           'account_id' => $this->id,
-           'award_id' => $award->id
-        ]);
+        if(!is_null($award)) {
+            $this->awards()->create([
+                'account_id' => $this->id,
+                'award_id' => $award->id
+            ]);
+        }
     }
 }
