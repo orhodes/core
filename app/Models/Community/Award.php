@@ -24,6 +24,6 @@ class Award extends Model
 
     protected function accounts()
     {
-        return $this->belongsToMany(Account::class);
+        return $this->belongsToMany(Account::class, 'mship_account_award');
     }
 }
