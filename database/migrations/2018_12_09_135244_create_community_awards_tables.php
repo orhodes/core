@@ -21,7 +21,7 @@ class CreateCommunityAwardsTables extends Migration
             $table->timestamps();
         });
 
-        Schema::create('mship_account_awards', function (Blueprint $table) {
+        Schema::create('mship_account_award', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('account_id');
             $table->unsignedInteger('award_id');
