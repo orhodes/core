@@ -3,8 +3,9 @@
 namespace App\Listeners\Sync\Awards;
 
 use App\Events\Mship\Award\AwardIssued;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
-class SyncAwardsToForum
+class SyncAwardsToForum implements ShouldQueue
 {
     /**
      * Handle the event.
