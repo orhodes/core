@@ -6,6 +6,7 @@ use App\Exceptions\Mship\InvalidCIDException;
 use App\Jobs\UpdateMember;
 use App\Models\Model;
 use App\Models\Mship\Account\Note as AccountNoteData;
+use App\Models\Mship\Concerns\HasAwards;
 use App\Models\Mship\Concerns\HasBans;
 use App\Models\Mship\Concerns\HasCommunityGroups;
 use App\Models\Mship\Concerns\HasEmails;
@@ -159,7 +160,7 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
 {
     use SoftDeletingTrait, Rememberable, Notifiable, Authenticatable, Authorizable,
         HasCommunityGroups, HasNetworkData, HasMoodleAccount, HasHelpdeskAccount,
-        HasVisitTransferApplications, HasQualifications, HasStates, HasBans, HasTeamSpeakRegistrations, HasPassword, HasNotifications, HasEmails, HasRoles;
+        HasVisitTransferApplications, HasQualifications, HasStates, HasBans, HasTeamSpeakRegistrations, HasPassword, HasNotifications, HasEmails, HasRoles, HasAwards;
     use HasApiTokens {
         clients as oAuthClients;
         tokens as oAuthTokens;

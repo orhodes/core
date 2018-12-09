@@ -20,6 +20,12 @@ class CreateCommunityAwardsTables extends Migration
             $table->unsignedInteger('forum_id');
             $table->timestamps();
         });
+
+        Schema::create('mship_account_awards', function (Blueprint $table) {
+            $table->increments('id');
+            $table->unsignedInteger('account_id');
+            $table->unsignedInteger('award_id');
+            $table->timestamps();
         });
     }
 
@@ -31,5 +37,6 @@ class CreateCommunityAwardsTables extends Migration
     public function down()
     {
         Schema::dropIfExists('community_awards');
+        Schema::dropIfExists('mship_account_awards');
     }
 }
