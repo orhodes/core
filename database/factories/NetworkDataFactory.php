@@ -54,6 +54,4 @@ $factory->define(\App\Models\NetworkData\Pilot::class, function (Faker $faker) {
         'minutes_online' => null,
         'created_at' => Carbon::now(),
     ];
-
 });
-

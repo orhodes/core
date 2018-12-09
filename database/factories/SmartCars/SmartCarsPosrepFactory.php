@@ -15,9 +15,9 @@ $factory->define(\App\Models\Smartcars\Posrep::class, function (Faker $faker) {
         'groundspeed' => 100,
         'distance_remaining' => 50,
         'phase' => 0,
-        'time_departure' => NULL,
-        'time_remaining' => NULL,
-        'time_arrival' => NULL,
-        'network' => 'VATSIM'
+        'time_departure' => null,
+        'time_remaining' => null,
+        'time_arrival' => null,
+        'network' => 'VATSIM',
     ];
 });

@@ -11,8 +11,8 @@ use App\Models\Smartcars\FlightCriterion;
 use App\Models\Smartcars\Pirep;
 use App\Models\Smartcars\Posrep;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\TestCase;
 use Illuminate\Support\Facades\Event;
+use Tests\TestCase;
 
 class PirepTest extends TestCase
 {
@@ -24,13 +24,13 @@ class PirepTest extends TestCase
         // Setup flight with criteria
         $flight = factory(Flight::class)->create();
         factory(FlightCriterion::class)->create([
-            'flight_id' => $flight->id
+            'flight_id' => $flight->id,
         ]);
 
         // Setup award for flight
         $award = factory(Award::class)->create([
             'awardable_type' => 'App\Models\Smartcars\Flight',
-            'awardable_id' => $flight->id
+            'awardable_id' => $flight->id,
         ]);
 
         // Setup bid, suitable posrep & submit flight
@@ -40,7 +40,7 @@ class PirepTest extends TestCase
             'account_id' => $bid->account->id,
             'connected_at' => $posrep->created_at->subMinutes(5),
             'disconnected_at' => $posrep->created_at->addMinutes(5),
-            'minutes_online' => 10000000
+            'minutes_online' => 10000000,
         ]);
         $pirep = factory(Pirep::class)->create(['bid_id' => $bid->id]);
 
