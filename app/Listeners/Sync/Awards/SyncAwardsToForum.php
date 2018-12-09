@@ -16,6 +16,6 @@ class SyncAwardsToForum
     {
         $account = $event->award->account;
 
-        // Add Award To Member's Forum Account
+        // TODO: Add awards to forum.
     }
 }

@@ -14,6 +14,8 @@ trait HasAwards
 
     public function award(?Awardable $award)
     {
+        // TODO: Ensure user does not already have the award.
+
         if (!is_null($award)) {
             $this->awards()->create([
                 'account_id' => $this->id,
