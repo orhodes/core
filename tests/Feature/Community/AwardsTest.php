@@ -20,6 +20,7 @@ class AwardsTest extends TestCase
 
         $this->assertEquals($before + 1, Award::all()->count());
     }
+
     /** @test */
     public function it_associates_awards_to_an_account()
     {
