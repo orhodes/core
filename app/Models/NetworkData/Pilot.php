@@ -173,12 +173,13 @@ class Pilot extends Model
      */
     protected function calculateTimeOnline()
     {
-        if (!is_null($this->disconnected_at)) {
-            $firstFlightplan = self::where('account_id', $this->account_id)
-                ->where('callsign', $this->callsign)
-                ->where('connected_at', $this->connected_at)
-                ->orderBy('created_at', 'ASC')
-                ->first();
+        $firstFlightplan = self::where('account_id', $this->account_id)
+            ->where('callsign', $this->callsign)
+            ->where('connected_at', $this->connected_at)
+            ->orderBy('created_at', 'ASC')
+            ->first();
+
+        if (!is_null($this->disconnected_at) && $firstFlightplan) {
 
             // If this session was the first flight plan filed, the time online
             // is calculated from their connected_at time. If they changed
