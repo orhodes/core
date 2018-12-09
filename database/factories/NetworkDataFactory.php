@@ -32,3 +32,28 @@
             ]
         );
     });
+
+$factory->define(\App\Models\NetworkData\Pilot::class, function (Faker $faker) {
+    $start = $faker->dateTimeBetween('6 hours ago');
+    $end = $faker->dateTimeBetween($start);
+
+    return [
+        'account_id' => factory(\App\Models\Mship\Account::class)->create(),
+        'callsign' => 'BAW47C',
+        'flight_type' => 'I',
+        'departure_airport' => 'EGKK',
+        'arrival_airport' => 'EGKK',
+        'alternative_airport' => 'KJFK',
+        'aircraft' => 'H/B77W/L',
+        'cruise_altitude' => '37000',
+        'cruise_tas' => '450',
+        'route' => 'DCT',
+        'remarks' => '',
+        'connected_at' => $start,
+        'disconnected_at' => null,
+        'minutes_online' => null,
+        'created_at' => Carbon::now(),
+    ];
+
+});
+
