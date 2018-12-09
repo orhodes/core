@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Events\Mship\Award\AwardIssued;
 use App\Events\NetworkData\AtcSessionEnded;
 use App\Events\Smartcars\BidCompleted;
 use App\Listeners\Smartcars\EvaluateFlightCriteria;
+use App\Listeners\Sync\Awards\SyncAwardsToForum;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -90,6 +92,10 @@ class EventServiceProvider extends ServiceProvider
 
         BidCompleted::class => [
             EvaluateFlightCriteria::class,
+        ],
+
+        AwardIssued::class => [
+            SyncAwardsToForum::class,
         ],
     ];
 
