@@ -87,7 +87,6 @@ class EvaluateFlightCriteria implements ShouldQueue
 
         $pirep->markPassed('Success: Flight passed all required checks');
         $pirep->save();
-        $account->award($flight->award);
     }
 
     protected function minutes($time)
