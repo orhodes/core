@@ -4,7 +4,6 @@ namespace Tests\Feature\Account;
 
 use App\Events\Mship\AccountAltered;
 use App\Models\Mship\Account\Email;
-use App\Models\Sso\OAuth\Client;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Support\Facades\Event;
@@ -108,7 +107,7 @@ class EmailAssignmentTest extends TestCase
         $this->actingAs($this->user->fresh())
             ->post(route('mship.manage.email.delete.post', $account), $data)
             ->assertRedirect(route('mship.manage.dashboard'))
-            ->assertSessionHas('success', 'Your secondary email (' . $account->email . ') has been removed!');
+            ->assertSessionHas('success', 'Your secondary email ('.$account->email.') has been removed!');
     }
 
     /** @test */
@@ -128,12 +127,25 @@ class EmailAssignmentTest extends TestCase
     /** @test */
     public function testAssignmentsEmailsPassedToView()
     {
-        $email = $this->user->fresh()->email;
+        $verifiedEmailAddress = 'my-verified-email@foo.com';
+        $unverifiedEmailAddress = 'my-unverified-email@bar.com';
 
-        $this->actingAs($this->user)
+        $verifiedEmail = $this->user->secondaryEmails()->create([
+            'email' => $verifiedEmailAddress,
+        ]);
+        $verifiedEmail->verify();
+
+        $this->user->secondaryEmails()->create([
+            'email' => $unverifiedEmailAddress,
+        ]);
+
+        $mainEmail = $this->user->fresh()->email;
+
+        $this->actingAs($this->user->fresh())
             ->get(route('mship.manage.email.assignments'))
-            ->assertSee($email)
-            ->assertSee($this->user->verified_secondary_emails);
+            ->assertSee($mainEmail)
+            ->assertSee($verifiedEmail)
+            ->assertDontSee($unverifiedEmailAddress);
     }
 
     /** @test */
@@ -162,7 +174,7 @@ class EmailAssignmentTest extends TestCase
         $this->actingAs($this->user)
             ->get(route('mship.manage.email.verify', $email->tokens->first()))
             ->assertRedirect(route('mship.manage.dashboard'))
-            ->assertSessionHas('success', 'Your new email address (' . $email->email . ') has been verified!');
+            ->assertSessionHas('success', 'Your new email address ('.$email->email.') has been verified!');
     }
 
     /** @test */
@@ -176,7 +188,7 @@ class EmailAssignmentTest extends TestCase
         Model::setEventDispatcher($initialDispatcher);
 
         $this->actingAs($this->user)
-            ->post(route('mship.manage.email.assignments.post', ['assign_' . $sso_client->id => $email->id]));
+            ->post(route('mship.manage.email.assignments.post', ['assign_'.$sso_client->id => $email->id]));
 
         Event::assertDispatched(AccountAltered::class);
     }
@@ -191,7 +203,7 @@ class EmailAssignmentTest extends TestCase
         Model::setEventDispatcher($initialDispatcher);
 
         $this->actingAs($this->user)
-            ->post(route('mship.manage.email.assignments.post', ['assign_' . $sso_email->ssoAccount->id => 'pri']));
+            ->post(route('mship.manage.email.assignments.post', ['assign_'.$sso_email->ssoAccount->id => 'pri']));
 
         Event::assertDispatched(AccountAltered::class);
     }

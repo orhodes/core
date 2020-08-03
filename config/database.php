@@ -75,8 +75,8 @@ return [
             'strict'      => true,
             'engine'      => null,
             'options'   => [
-                \PDO::ATTR_EMULATE_PREPARES => true
-            ]
+                \PDO::ATTR_EMULATE_PREPARES => true,
+            ],
         ],
 
         'cts' => [
@@ -153,6 +153,7 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_DB', 0),
+            'read_write_timeout' => -1,
         ],
 
         'cache' => [
@@ -160,6 +161,23 @@ return [
             'password' => env('REDIS_PASSWORD', null),
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_CACHE_DB', 1),
+            'read_write_timeout' => -1,
+        ],
+
+        'session' => [
+            'host'     => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_SESSION_DB', 2),
+            'read_write_timeout' => -1,
+        ],
+
+        'queue' => [
+            'host'     => env('REDIS_HOST', '127.0.0.1'),
+            'password' => env('REDIS_PASSWORD', null),
+            'port'     => env('REDIS_PORT', 6379),
+            'database' => env('REDIS_QUEUE_DB', 3),
+            'read_write_timeout' => -1,
         ],
 
     ],

@@ -4,7 +4,6 @@ namespace App\Jobs;
 
 use App\Models\Mship\Account;
 use App\Models\Mship\Qualification as QualificationData;
-use Bugsnag;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -37,19 +36,16 @@ class UpdateMember extends Job implements ShouldQueue
         try {
             $this->data = VatsimXML::getData($this->accountID, 'idstatusint');
         } catch (\Exception $e) {
-            if (strpos($e->getMessage(), 'Name or service not known') !== false) {
-                // CERT unavailable. Not our fault, so will ignore.
-                return;
-            }
-            Bugsnag::notifyException($e);
-
             return;
         }
+
         DB::beginTransaction();
-        if (!is_string($this->data->region)) {
+
+        if (! is_string($this->data->region)) {
             $this->data->region = '';
         }
-        if (!is_string($this->data->division)) {
+
+        if (! is_string($this->data->division)) {
             $this->data->division = '';
         }
 
@@ -63,18 +59,18 @@ class UpdateMember extends Job implements ShouldQueue
         ) {
             $member->delete();
         } else {
-            if (!empty($this->data->name_first) && is_string($this->data->name_first)) {
+            if (! empty($this->data->name_first) && is_string($this->data->name_first)) {
                 $member->name_first = $this->data->name_first;
             }
 
-            if (!empty($this->data->name_last) && is_string($this->data->name_last)) {
+            if (! empty($this->data->name_last) && is_string($this->data->name_last)) {
                 $member->name_last = $this->data->name_last;
             }
 
             $member->cert_checked_at = Carbon::now();
             $member->is_inactive = (bool) ($this->data->rating < 0);
 
-            if ($this->data->regdate !== '0000-00-00 00:00:00') {
+            if ($this->data->regdate !== '0000-00-00 00:00:00' && $this->data->regdate !== 'None') {
                 $member->joined_at = $this->data->regdate;
             }
 
@@ -121,7 +117,7 @@ class UpdateMember extends Job implements ShouldQueue
             $_prevRat = VatsimXML::getData($member->id, 'idstatusprat');
             if (isset($_prevRat->PreviousRatingInt)) {
                 $prevAtcRating = QualificationData::parseVatsimATCQualification($_prevRat->PreviousRatingInt);
-                if (!is_null($prevAtcRating) && !$member->hasQualification($prevAtcRating)) {
+                if (! is_null($prevAtcRating) && ! $member->hasQualification($prevAtcRating)) {
                     $member->addQualification($prevAtcRating);
                 }
             }
@@ -141,9 +137,9 @@ class UpdateMember extends Job implements ShouldQueue
         // log their current rating (unless they're a non-UK instructor)
         if (($this->data->rating != 8 && $this->data->rating != 9) || $member->hasState('DIVISION')) {
             $atcRating = QualificationData::parseVatsimATCQualification($this->data->rating);
-            if (!is_null($atcRating) && !$member->hasQualification($atcRating)) {
+            if (! is_null($atcRating) && ! $member->hasQualification($atcRating)) {
                 $member->addQualification($atcRating);
-            } elseif (is_null($atcRating) && !$member->qualification_atc) {
+            } elseif (is_null($atcRating) && ! $member->qualification_atc) {
                 // if we cannot find their ATC raiting and they don't have one already, set OBS
                 $atcRating = QualificationData::parseVatsimATCQualification(1);
                 $member->addQualification($atcRating);
@@ -152,7 +148,7 @@ class UpdateMember extends Job implements ShouldQueue
 
         $pilotRatings = QualificationData::parseVatsimPilotQualifications($this->data->pilotrating);
         foreach ($pilotRatings as $pr) {
-            if (!$member->hasQualification($pr)) {
+            if (! $member->hasQualification($pr)) {
                 $member->addQualification($pr);
             }
         }
