@@ -87,17 +87,13 @@ trait HasQualifications
             }
         }
 
-        for ($i = 1; $i <= 256; $i *= 2) {
-            if ($i & $pilotRating) {
-                $qualifications[] = Qualification::ofType('pilot')->networkValue($i)->first();
+        if ($pilotRating >= 0) {
+            $pilotRatings = Qualification::parseVatsimPilotQualifications($pilotRating);
+            foreach ($pilotRatings as $pr) {
+                if (! $this->hasQualification($pr)) {
+                    $this->addQualification($pr);
+                }
             }
-        }
-
-        $ids = collect($qualifications)->pluck('id');
-
-        if (! empty($ids)) {
-            $this->qualifications()->syncWithoutDetaching($ids);
-            event(new AccountAltered($this));
         }
     }
 
@@ -144,15 +140,13 @@ trait HasQualifications
 
     public function getQualificationsPilotStringAttribute()
     {
-        $output = '';
-        foreach ($this->qualifications_pilot as $p) {
-            $output .= $p->code.', ';
-        }
-        if ($output == '') {
-            $output = 'None';
-        }
+        $rating = $this->qualifications->filter(function ($qual) {
+            return $qual->type == 'pilot';
+        })->sortByDesc(function ($qualification) {
+            return $qualification->pivot->created_at;
+        })->first();
 
-        return rtrim($output, ', ');
+        return optional($rating)->code ?? 'None';
     }
 
     public function getQualificationsPilotTrainingAttribute()
