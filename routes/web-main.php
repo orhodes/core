@@ -1,15 +1,14 @@
 <?php
 
 // Dashboard
-Route::get('/dashboard')->uses('Mship\Management@getLanding')->name('dashboard');
+Route::get('/dashboard')->uses('Mship\Management@getLanding')->name('landing');
 
 // Authentication
-Route::get('login')->uses('Auth\LoginController@getLogin');
-Route::post('login')->uses('Auth\LoginController@loginMain')->name('login');
+Route::get('login')->uses('Auth\LoginController@login')->name('login');
+Route::post('login')->uses('Auth\LoginController@login')->name('login.post');
 Route::get('login-secondary')->uses('Auth\LoginController@showLoginForm')->middleware('auth:vatsim-sso')->name('auth-secondary');
-Route::post('login-secondary')->uses('Auth\LoginController@loginSecondary')->middleware('auth:vatsim-sso')->name('auth-secondary.post');
-Route::get('login-vatsim')->uses('Auth\LoginController@vatsimSsoReturn')->name('auth-vatsim-sso');
-Route::post('logout')->uses('Auth\LoginController@logout')->name('logout');
+Route::post('login-secondary')->uses('Auth\SecondaryLoginController@loginSecondary')->middleware('auth:vatsim-sso')->name('auth-secondary.post');
+Route::post('logout')->uses('Auth\LogoutController')->name('logout');
 
 // Password
 Route::group([
@@ -39,16 +38,6 @@ Route::group([
     });
 });
 
-// Webhooks
-Route::group([
-    'as'        => 'webhook.',
-    'prefix'    => 'webhook',
-    'namespace' => 'Webhook',
-], function () {
-    Route::post('mailgun')->uses('Mailgun@event')->middleware('auth.basic.once');
-    Route::post('sendgrid')->uses('SendGrid@events')->middleware('auth.basic.once');
-});
-
 // Members
 Route::group([
     'prefix'     => 'mship',
@@ -63,6 +52,7 @@ Route::group([
         'prefix' => 'manage',
     ], function () {
         Route::get('dashboard')->uses('Management@getDashboard')->name('dashboard');
+        Route::get('cert/update')->uses('Management@requestCertCheck')->name('cert.update');
         Route::get('email/verify/{code}')->uses('Management@getVerifyEmail')->name('email.verify');
         Route::get('email/add')->uses('Management@getEmailAdd')->name('email.add');
         Route::post('email/add')->uses('Management@postEmailAdd')->name('email.add.post');
@@ -92,10 +82,6 @@ Route::group([
 
         Route::get('notification/list')->uses('Notification@getList')->name('notification.list');
         Route::post('notification/acknowledge/{sysNotification}')->uses('Notification@postAcknowledge')->name('notification.acknowledge');
-
-        // Route::get('/email')->uses('Email@getEmail')->name('mship.email');
-        // Route::post('/email')->uses('Email@postEmail')->name('mship.email.post');
-        // Route::get('/email/recipient-search')->uses('Email@getRecipientSearch')->name('mship.email.recipient-search');
     });
 });
 

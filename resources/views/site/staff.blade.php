@@ -60,34 +60,33 @@
                     </div>
                     <div class="panel-body">
                         <h4 class="text-center">Operations Director (VATUK9)</h4><br/>
-                        <p class="text-center">Vacant</p>
+                        <img src="{{ $teamPhotos[7072] }}"
+                             width=50px
+                             class="img-responsive center-block profile-picture"/>
+                        <p class="text-center">Jack Edwards</p>
+                        <h4 class="text-center">Operations Team</h4>
+                        <table class="table">
+                            <tr>
+                                <td>Enroute Operations Coordinator</td>
+                                <td>Harry Sugden</td>
+                            </tr>
+                            <tr>
+                                <td>Aerodrome Operations Coordinator</td>
+                                <td>Chad Byworth</td>
+                            </tr>
+                            <tr>
+                                <td>Sector File Coordinator</td>
+                                <td>Luke Brown</td>
+                            </tr>
+                            <tr>
+                                <td>Sector File Coordinator</td>
+                                <td>Thomas Mills</td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
-
-                    <div class="panel panel-ukblue">
-                        <div class="panel-heading"><i class="fa fa-star"></i> &thinsp; Member Services
-                        </div>
-                        <div class="panel-body">
-                            <h4 class="text-center">Member Services Director (VATUK3)</h4><br/>
-                            <img src="{{ $teamPhotos[7404] }}"
-                                 width=50px
-                                 class="img-responsive center-block profile-picture"/>
-                            <p class="text-center">Tom Earl</p>
-                            <h4 class="text-center">Member Services Team</h4>
-                            <table class="table">
-                                <tr>
-                                    <td>Member Services Assistant</td>
-                                    <td>Adam Meade</td>
-                                </tr>
-                                <tr>
-                                    <td>Member Services Assistant</td>
-                                    <td>Matthew Wilson</td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-
+            </div>
+            <!-- End Operations -->
             <!-- Marketing -->
             <div class="col-md-4">
                 <div class="panel panel-ukblue">
@@ -113,7 +112,7 @@
                     </div>
                 </div>
             </div>
-
+            <!-- End Marketing -->
             <!-- Web Services -->
             <div class="col-md-4">
                 <div class="panel panel-ukblue">
@@ -145,22 +144,68 @@
                                 <td>Developer</td>
                                 <td>Andy Ford</td>
                             </tr>
-                            <tr>
-                                <td>Developer</td>
-                                <td>Daniel Plumb</td>
-                            </tr>
                         </table>
                     </div>
                 </div>
             </div>
-
-
+            <!-- End Web Services -->
         </div>
         <!-- End Row One -->
     </div>
     <div class="container">
-                <!-- Row Two -->
+        <!-- Row Two -->
         <div class="row">
+            <!-- 1 Column for Two -->
+            <div class="col-md-4">
+                <!-- Member Services -->
+                <div class="panel panel-ukblue">
+                    <div class="panel-heading"><i class="fa fa-star"></i> &thinsp; Member Services
+                    </div>
+                    <div class="panel-body">
+                        <h4 class="text-center">Member Services Director (VATUK3)</h4><br/>
+                        <img src="{{ $teamPhotos[4111] }}"
+                             width=50px
+                             class="img-responsive center-block profile-picture"/>
+                        <p class="text-center">Harry Downton</p>
+                        <h4 class="text-center">Member Services Team</h4>
+                        <table class="table">
+                            <tr>
+                                <td>Member Services Assistant</td>
+                                <td>Adam Meade</td>
+                            </tr>
+                            <tr>
+                                <td>Member Services Assistant</td>
+                                <td>Matthew Wilson</td>
+                            </tr>
+                            <tr>
+                                <td>Member Services Assistant</td>
+                                <td>James Thomas</td>
+                            </tr>
+                            <tr>
+                                <td>Member Services Assistant</td>
+                                <td>Luke Peters</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!-- Other Roles -->
+                <div class="panel panel-ukblue">
+                    <div class="panel-heading"><i class="fa fa-star"></i> &thinsp; Other Roles
+                    </div>
+                    <div class="panel-body">
+                        <table class="table">
+                            <tbody>
+                                <tr>
+                                    <td>Data Protection Officer</td>
+                                    <td>Chris Pawley</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- End Other Roles -->
+            </div>
+            <!-- End 1 Column for Two -->
             <!-- Training -->
             <div class="col-md-8">
                 <div class="panel panel-ukblue">
@@ -182,7 +227,7 @@
                                 </tr>
                                 <tr>
                                     <td>Division Instructor</td>
-                                    <td>Phillip Speer</td>
+                                    <td>Jack Edwards</td>
                                 </tr>
                                 <tr>
                                     <td>Division Instructor</td>
@@ -198,19 +243,15 @@
                                 </tr>
                                 <tr>
                                     <td>Division Instructor</td>
-                                    <td>Jamie Paine</td>
-                                </tr>
-                                <tr>
-                                    <td>Division Instructor</td>
                                     <td>Lee Roberts</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (New Controller)</td>
-                                    <td>Ben Cook</td>
+                                    <td>Fergus Walsh</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (New Controller)</td>
-                                    <td>Fergus Walsh</td>
+                                    <td>Kye Taylor</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (TWR)</td>
@@ -226,23 +267,19 @@
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (APP)</td>
-                                    <td>Oliver Gates</td>
+                                    <td>Kieron Crean</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (APP)</td>
-                                    <td>Charlie Watson</td>
+                                    <td>William Jennings</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (APP)</td>
-                                    <td>Jack Edwards</td>
+                                    <td>Thomas Greer</td>
                                 </tr>
                                 <tr>
                                     <td>TG Instructor (Heathrow)</td>
                                     <td>Nathaniel Leff</td>
-                                </tr>
-                                <tr>
-                                    <td>TG Instructor (Enroute)</td>
-                                    <td>Sebastian Rekdal</td>
                                 </tr>
                             </table>
                             </div>
@@ -252,11 +289,11 @@
                             <table class="table">
                                 <tr>
                                     <td>General Manager</td>
-                                    <td>Vacant</td>
+                                    <td>Darren Hill</td>
                                 </tr>
                                 <tr>
                                     <td>Initial Flight Instructor</td>
-                                    <td>Matthew Wilson</td>
+                                    <td>Vacant</td>
                                 </tr>
                                 <tr>
                                     <td>VFR Flight Instructor</td>
@@ -267,37 +304,13 @@
                                     <td>Freddie Charlesworth</td>
                                 </tr>
                              </table>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Other Roles -->
-            <div class="col-md-4">
-                <div class="panel panel-ukblue">
-                    <div class="panel-heading"><i class="fa fa-star"></i> &thinsp; Other Roles
-                    </div>
-                    <div class="panel-body">
-                        <br/>
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>Division Conflict Resolution Manager</td>
-                                    <td>Phillip Speer</td>
-                                </tr>
-                                <tr>
-                                    <td>Data Protection Officer</td>
-                                    <td>Chris Pawley</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+            <!-- End Training -->
         </div>
     </div>
-
-        <!-- End Row Two -->
+    <!-- End Row Two -->
     </div>
 @stop

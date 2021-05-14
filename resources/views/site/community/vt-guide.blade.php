@@ -18,7 +18,7 @@
                             This page is ONLY for members that wish to transfer to or visit the United Kingdom. &nbsp;If
                             you
                             wish to transfer or visit another region/division, you should apply directly to the <a
-                                    href="http://www.vatsim.net/region" rel="external nofollow" target="_blank">team at
+                                    href="https://www.vatsim.net/vatsim-regions" rel="external nofollow" target="_blank">team at
                                 the
                                 relevant region/division</a>&nbsp;you wish to go to.
                         </p>
@@ -266,6 +266,9 @@
                 <ul>
                     <li>
                         London Control (LON_W_CTR)
+                    </li>
+                    <li>
+                        Scottish Control (SCO_CTR)
                     </li>
                     <li>
                         VG1/2/3/4 facilities

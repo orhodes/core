@@ -78,11 +78,11 @@
                         fillColor: '#FF0000',
                         fillOpacity: 0.35,
                         map: map,
-                        center: { lat:{{$stand['latcoord']}}, lng: {{$stand['longcoord']}}},
+                        center: { lat:{{$stand->latitude}}, lng: {{$stand->longitude}}},
                         radius: 30
                     });
                 @endforeach
-                @foreach(collect($stands->allStands())->where('occupied',null) as $stand)
+                @foreach(collect($stands->allStands())->whereNull('occupier') as $stand)
                 new google.maps.Circle({
                     strokeColor: '#32cd32',
                     strokeOpacity: 0.8,
@@ -90,7 +90,7 @@
                     fillColor: '#32cd32',
                     fillOpacity: 0.35,
                     map: map,
-                    center: { lat:{{$stand['latcoord']}}, lng: {{$stand['longcoord']}}},
+                    center: { lat:{{$stand->latitude}}, lng: {{$stand->longitude}}},
                     radius: 30
                 });
                 @endforeach
@@ -255,7 +255,7 @@
         </div>
         <hr>
     @endif
-    <div class="row">
+    {{-- <div class="row">
         @if($airport->navaids->merge($airport->runways)->count() > 0)
             <div class="col-md-6">
                 @if($airport->navaids->count() > 0)
@@ -395,7 +395,7 @@
             </div>
         @endif
     </div>
-    <hr>
+    <hr>--}}
     <div class="row">
         <div class="@if($stands) col-md-3 @else col-md-6 @endif">
             <div class="panel panel-ukblue">
@@ -474,10 +474,10 @@
                         <tbody>
                             @foreach($stands->allStands() as $stand)
                                 <tr>
-                                    <td>{{$stand['id']}}</td>
+                                    <td>{{$stand->id}}</td>
                                     <td>
-                                        @if(isset($stand['occupied']))
-                                            <span style="color:red">Occupied by {{$stand['occupied']['callsign']}}</span>
+                                        @if($stand->occupier)
+                                            <span style="color:red">Occupied by {{$stand->occupier->callsign}}</span>
                                         @else
                                             <span style="color:green">Free</span>
                                         @endif

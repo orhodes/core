@@ -5,10 +5,12 @@ namespace App\Models\Mship;
 use App\Events\Mship\AccountAltered;
 use App\Exceptions\Mship\InvalidCIDException;
 use App\Jobs\UpdateMember;
+use App\Libraries\Discord;
 use App\Models\Model;
 use App\Models\Mship\Account\Note as AccountNoteData;
 use App\Models\Mship\Concerns\HasBans;
 use App\Models\Mship\Concerns\HasCTSAccount;
+use App\Models\Mship\Concerns\HasDiscordAccount;
 use App\Models\Mship\Concerns\HasEmails;
 use App\Models\Mship\Concerns\HasForumAccount;
 use App\Models\Mship\Concerns\HasHelpdeskAccount;
@@ -18,6 +20,7 @@ use App\Models\Mship\Concerns\HasNotifications;
 use App\Models\Mship\Concerns\HasNovaPermissions;
 use App\Models\Mship\Concerns\HasPassword;
 use App\Models\Mship\Concerns\HasQualifications;
+use App\Models\Mship\Concerns\HasRoles;
 use App\Models\Mship\Concerns\HasStates;
 use App\Models\Mship\Concerns\HasTeamSpeakRegistrations;
 use App\Models\Mship\Concerns\HasVisitTransferApplications;
@@ -32,7 +35,6 @@ use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Spatie\Permission\Models\Role;
-use Spatie\Permission\Traits\HasRoles;
 use Watson\Rememberable\Rememberable;
 
 /**
@@ -105,8 +107,6 @@ use Watson\Rememberable\Rememberable;
  * @property-read \Illuminate\Support\Collection $verified_secondary_emails
  * @property-read mixed $visit_transfer_current
  * @property-read mixed $visit_transfer_referee_pending
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Messages\Thread\Post[] $messagePosts
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Messages\Thread[] $messageThreads
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NetworkData\Atc[] $networkDataAtc
  * @property-read \App\Models\NetworkData\Atc $networkDataAtcCurrent
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\NetworkData\Pilot[] $networkDataPilot
@@ -161,7 +161,7 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
     use SoftDeletingTrait, Rememberable, Notifiable, Authenticatable, Authorizable,
         HasNetworkData, HasMoodleAccount, HasHelpdeskAccount, HasForumAccount, HasCTSAccount,
         HasVisitTransferApplications, HasQualifications, HasStates, HasBans, HasTeamSpeakRegistrations, HasPassword,
-        HasNotifications, HasEmails, HasRoles, HasNovaPermissions;
+        HasNotifications, HasEmails, HasRoles, HasNovaPermissions, HasDiscordAccount;
     use HasApiTokens {
         clients as oAuthClients;
         tokens as oAuthTokens;
@@ -194,9 +194,9 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
         'password_expires_at',
     ];
     protected $attributes = [
-        'name_first' => '',
-        'name_last' => '',
-        'inactive' => false,
+        'name_first'    => '',
+        'name_last'     => '',
+        'inactive'      => false,
         'last_login_ip' => '0.0.0.0',
     ];
     protected $untracked = ['cert_checked_at', 'last_login', 'remember_token', 'password', 'updated_at'];
@@ -258,17 +258,6 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
 
             return $account;
         }
-    }
-
-    public function messageThreads()
-    {
-        return $this->belongsToMany(\App\Models\Messages\Thread::class, 'messages_thread_participant', 'thread_id')
-            ->withPivot('display_as', 'read_at', 'status')->withTimestamps();
-    }
-
-    public function messagePosts()
-    {
-        return $this->hasMany(\App\Models\Messages\Thread\Post::class, 'account_id');
     }
 
     public function bansAsInstigator()
@@ -394,17 +383,23 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
     /**
      * Get the user's full name.
      *
-     * If a nickname is set, that will be used in place of name_first.
-     *
      * @return mixed|string
      */
     public function getNameAttribute()
     {
-        if ($this->nickname != null) {
-            return $this->nickname.' '.$this->name_last;
-        }
+        return $this->name_preferred.' '.$this->name_last;
+    }
 
-        return $this->real_name;
+    /**
+     * Get the user's first name.
+     *
+     * If a nickname is set, that will be used in place of name_first.
+     *
+     * @return mixed|string
+     */
+    public function getNamePreferredAttribute()
+    {
+        return $this->nickname ? $this->nickname : $this->name_first;
     }
 
     /**
@@ -419,7 +414,7 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
 
     public function getFullyDefinedAttribute()
     {
-        return $this->name_first && $this->name_last && $this->email;
+        return $this->name_first && $this->name_last && $this->email && $this->qualification_atc;
     }
 
     private function allowedNames($includeATC = false, $withNumberWildcard = false)
@@ -474,6 +469,16 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
     }
 
     /**
+     * Returns the Discord user associated with this account if the user has linked it.
+     *
+     * @return RestCord/Model/User/User The Discord user
+     */
+    public function getDiscordUserAttribute()
+    {
+        return app()->make(Discord::class)->getUserInformation($this);
+    }
+
+    /**
      * Returns what the session timeout for this user should be, in minutes.
      *
      * @return int The timeout in minutes
@@ -481,9 +486,9 @@ class Account extends Model implements AuthenticatableContract, AuthorizableCont
     public function getSessionTimeoutAttribute()
     {
         $timeout = $this->roles()
-                        ->orderBy('session_timeout', 'DESC')
-                        ->first()
-                        ->session_timeout;
+            ->orderBy('session_timeout', 'DESC')
+            ->first()
+            ->session_timeout;
 
         return $timeout === null ? 0 : $timeout;
     }

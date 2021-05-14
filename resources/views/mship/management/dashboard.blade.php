@@ -18,12 +18,12 @@
                     </div>
                     <div class="panel panel-ukblue border-black-thin">
                         <div class="panel-heading">
-                            <i>https://cert.vatsim.net/vatsimnet/newmail.php</i>
+                            <i>https://my.vatsim.net/user/email</i>
                         </div>
                         <div class="panel-body">
                             <div class="embed-responsive embed-responsive-16by9">
                                 <iframe class="embed-responsive-item"
-                                        src="https://cert.vatsim.net/vatsimnet/newmail.php"></iframe>
+                                        src="https://my.vatsim.net/user/email"></iframe>
                             </div>
                         </div>
                     </div>
@@ -38,32 +38,37 @@
         <div class="col-md-6">
             <div class="panel panel-ukblue">
                 <div class="panel-heading"><i class="fa fa-male"></i> &thinsp; Personal Details
+
+                    <div class="pull-right">
+                        <a
+                        class="tooltip_displays"
+                        href="{{ route('mship.manage.cert.update') }}"
+                        data-toggle="tooltip"
+                        title="{{ !is_null($_account->cert_checked_at) ? 'Last updated with VATSIM.net ' . $_account->cert_checked_at->diffForHumans() : 'Not yet updated with VATSIM.net.' }} "
+                        >
+                            <i class="fa fa-sync"></i>
+                        </a>
+                    </div>
                 </div>
                 <div class="panel-body">
                     <!-- Content Of Panel [START] -->
                     <!-- Top Row [START] -->
                     <div class="row">
-                        <div class="col-xs-4">
+                        <div class="col-xs-4 pb-1">
                             <b>CID:</b>
                             {{ $_account->id }}
                         </div>
-                        <div class="col-xs-4">
+                        <div class="col-xs-4 pb-1">
                             <b>FULL NAME:</b>
                             {{ $_account->name}}
                         </div>
                         @if(false)
-                            <div class="col-xs-4">
+                            <div class="col-xs-4 pb-1">
                                 <b>NICKNAME:</b>
                                 {{ $_account->name }}
                             </div>
                         @endif
-                    </div>
-                    <!-- Top Row [END] -->
-                    <br/>
-                    <!-- Second Row [START] -->
-                    <div class="row">
-
-                        <div class="col-xs-4">
+                        <div class="col-xs-4 pb-1">
                             <b>STATUS: </b>
                             {{ $_account->status_string }} {{ !is_null($_account->primary_state) ? $_account->primary_state->name : 'unknown state' }}
                             Member
@@ -88,132 +93,18 @@
                             {!! Form::close() !!}
                         </div>
                     </div>
-                    <!-- Second Row [END] -->
-                    <!-- Content Of Panel [END] -->
+                    <!-- Top Row [END] -->
                 </div>
-            </div>
-            <div class="panel panel-ukblue">
-                <div class="panel-heading"><i class="fa fa-lock"></i> &thinsp; Secondary Password
-                </div>
-                <div class="panel-body">
-                    <!-- Content Of Panel [START] -->
-                    <!-- Top Row [START] -->
+                <div class="panel-footer panel-footer-primary">
                     <div class="row">
                         <div class="col-xs-12">
-                            Your authentication for VATSIM UK is largely handled by VATSIM.net's certificate server.
-                            From time to time this can go offline,
-                            which will prevent you from accessing any UK service. In order to avoid being impacted
-                            by this, members are encouraged to set
-                            a secondary password. In doing so, you will be asked for this password after every login
-                            and when the certificate server is offline.
+                            <a href="{{ route('mship.manage.cert.update') }}">
+                                <span class='fa fa-sync'></span> Details look incorrect? Click here to request an update from VATSIM.net.
+                            </a>
                         </div>
-                    </div>
-                    <!-- Top Row [END] -->
-                    <br/>
-                    <!-- Second Row [START] -->
-                    <div class="row">
-                        <div class="col-xs-4">
-                            <b>STATUS: </b>
-                            @if($_account->password)
-                                ENABLED
-                            @else
-                                DISABLED
-                            @endif
-                        </div>
-                        @if($_account->password)
-                            <div class="col-xs-4">
-                                {!! HTML::link(route('password.change'), "Click to Modify") !!}
-                            </div>
-                            <div class="col-xs-4">
-                                @if(!$_account->mandatory_password)
-                                    {!! HTML::link(route('password.delete'), "Click to Disable") !!}
-                                @else
-                                    Cannot be disabled.
-                                @endif
-                            </div>
-                        @else
-                            <div class="col-xs-4">
-                                {!! HTML::link(route('password.create'), "Click to Enable") !!}
-                            </div>
-                        @endif
-                    </div>
-                    <!-- Second Row [END] -->
-                    <!-- Content Of Panel [END] -->
-                </div>
-            </div>
-            <div class="panel panel-ukblue">
-                <div class="panel-heading"><i class="fa fa-graduation-cap"></i> &thinsp; ATC & Pilot Qualifications
-                </div>
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-xs-6 col-lg-6 col-md-12 row-text-contain text-center">
-                                    <b>ATC QUALIFICATIONS</b>
-                                    <br/>
-                                    <small>Showing all achieved</small>
-                                </div>
-                                <div class="col-xs-6 col-lg-6 col-md-12 text-center">
-                                    @foreach($_account->qualifications_atc as $qual)
-                                        {{ $qual }}
-                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
-                                           title="{{ $qual->pivot->created_at }}">
-                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
-                                        </a>
-                                        <br/>
-                                    @endforeach
-                                    @if(count($_account->qualifications_atc) < 1)
-                                        You have no ATC ratings.
-                                    @endif
-
-                                    @foreach($_account->qualifications_atc_training as $qual)
-                                        {{ $qual }}
-                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
-                                           title="{{ $qual->pivot->created_at }}">
-                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
-                                        </a>
-                                        <br/>
-                                    @endforeach
-
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-xs-6 col-lg-6 col-md-12 row-text-contain text-center">
-                                    <b>PILOT QUALIFICATIONS</b>
-                                    <br/>
-                                    <small>Showing all achieved</small>
-                                </div>
-                                <div class="col-xs-6 col-lg-6 col-md-12 text-center">
-                                    @foreach($_account->qualifications_pilot as $qual)
-                                        {{ $qual }}
-                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
-                                           title="{{ $qual->pivot->created_at }}">
-                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
-                                        </a>
-                                        <br/>
-                                    @endforeach
-                                    @if(count($_account->qualifications_pilot) < 1)
-                                        You have no Pilot ratings.
-                                    @endif
-                                    @foreach($_account->qualifications_pilot_training as $qual)
-                                        {{ $qual }}
-                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
-                                           title="{{ $qual->pivot->created_at }}">
-                                            <em>granted {{ $qual->pivot->created_at }}</em>
-                                        </a>
-                                        <br/>
-                                    @endforeach
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6">
             <div class="panel panel-ukblue">
                 <div class="panel-heading">
                     <i class="fa fa-envelope"></i>&thinsp;
@@ -294,7 +185,149 @@
                     @endforelse
                 </div>
             </div>
+            <div class="panel panel-ukblue">
+                <div class="panel-heading"><i class="fa fa-lock"></i> &thinsp; Secondary Password
+                </div>
+                <div class="panel-body">
+                    <!-- Content Of Panel [START] -->
+                    <!-- Top Row [START] -->
+                    <div class="row">
+                        <div class="col-xs-12">
+                            Your authentication for VATSIM UK is largely handled by VATSIM.net's certificate server.
+                            From time to time this can go offline,
+                            which will prevent you from accessing any UK service. In order to avoid being impacted
+                            by this, members are encouraged to set
+                            a secondary password. In doing so, you will be asked for this password after every login
+                            and when the certificate server is offline.
+                        </div>
+                    </div>
+                    <!-- Top Row [END] -->
+                    <br/>
+                    <!-- Second Row [START] -->
+                    <div class="row">
+                        <div class="col-xs-4">
+                            <b>STATUS: </b>
+                            @if($_account->password)
+                                ENABLED
+                            @else
+                                DISABLED
+                            @endif
+                        </div>
+                        @if($_account->password)
+                            <div class="col-xs-4">
+                                {!! HTML::link(route('password.change'), "Click to Modify") !!}
+                            </div>
+                            <div class="col-xs-4">
+                                @if(!$_account->mandatory_password)
+                                    {!! HTML::link(route('password.delete'), "Click to Disable") !!}
+                                @else
+                                    Cannot be disabled.
+                                @endif
+                            </div>
+                        @else
+                            <div class="col-xs-4">
+                                {!! HTML::link(route('password.create'), "Click to Enable") !!}
+                            </div>
+                        @endif
+                    </div>
+                    <!-- Second Row [END] -->
+                    <!-- Content Of Panel [END] -->
+                </div>
+            </div>
+            <div class="panel panel-ukblue">
+                <div class="panel-heading"><i class="fa fa-graduation-cap"></i> &thinsp; ATC & Pilot Qualifications
 
+                    <div class="pull-right">
+                        <a
+                        class="tooltip_displays"
+                        href="{{ route('mship.manage.cert.update') }}"
+                        data-toggle="tooltip"
+                        title="{{ !is_null($_account->cert_checked_at) ? 'Last updated with VATSIM.net ' . $_account->cert_checked_at->diffForHumans() : 'Not yet updated with VATSIM.net.' }} "
+                        >
+                            <i class="fa fa-sync"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-xs-6 col-lg-6 col-md-12 row-text-contain text-center">
+                                    <b>ATC QUALIFICATIONS</b>
+                                    <br/>
+                                    <small>Showing all achieved</small>
+                                </div>
+                                <div class="col-xs-6 col-lg-6 col-md-12 text-center">
+                                    @foreach($_account->qualifications_atc as $qual)
+                                        {{ $qual }}
+                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
+                                           title="{{ $qual->pivot->created_at }}">
+                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
+                                        </a>
+                                        <br/>
+                                    @endforeach
+                                    @if(count($_account->qualifications_atc) < 1)
+                                        You have no ATC ratings.
+                                    @endif
+
+                                    @foreach($_account->qualifications_atc_training as $qual)
+                                        {{ $qual }}
+                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
+                                           title="{{ $qual->pivot->created_at }}">
+                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
+                                        </a>
+                                        <br/>
+                                    @endforeach
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-xs-6 col-lg-6 col-md-12 row-text-contain text-center">
+                                    <b>PILOT QUALIFICATIONS</b>
+                                    <br/>
+                                    <small>Showing all achieved</small>
+                                </div>
+                                <div class="col-xs-6 col-lg-6 col-md-12 text-center">
+                                    @foreach($_account->qualifications_pilot as $qual)
+                                        {{ $qual }}
+                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
+                                           title="{{ $qual->pivot->created_at }}">
+                                            <em>granted {{ $qual->pivot->created_at->diffForHumans() }}</em>
+                                        </a>
+                                        <br/>
+                                    @endforeach
+                                    @if(count($_account->qualifications_pilot) < 1)
+                                        You have no Pilot ratings.
+                                    @endif
+                                    @foreach($_account->qualifications_pilot_training as $qual)
+                                        {{ $qual }}
+                                        <a class="tooltip_displays" href="#" data-toggle="tooltip"
+                                           title="{{ $qual->pivot->created_at }}">
+                                            <em>granted {{ $qual->pivot->created_at }}</em>
+                                        </a>
+                                        <br/>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="panel-footer panel-footer-primary">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <a href="{{ route('mship.manage.cert.update') }}">
+                                <span class='fa fa-sync'></span> Details look incorrect? Click here to request an update from VATSIM.net.
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
             @if(!$_account->is_banned)
                 <div class="panel panel-ukblue">
                     <div class="panel-heading"><em class="fab fa-teamspeak"></em>
@@ -367,7 +400,9 @@
                     <div class="row">
                         <div class="col-xs-12">
                             @if($_account->discord_id)
-                                Currently registered with Discord ID {{ $_account->discord_id }}. <br/>
+                                Currently registered with Discord
+                                ID {{ $_account->discord_user ? $_account->discord_user['username'].'#'.$_account->discord_user['discriminator'] : $_account->discord_id }}
+                                . <br/>
                                 <a href="{{ route('discord.destroy') }}">Unlink Discord account</a>
                             @else
                                 You are not yet
@@ -409,7 +444,8 @@
                             <div class="row">
                                 @forelse($pluginKeys as $key)
                                     <div class="col-xs-6 row-text-contain" style="padding-bottom: 20px;">
-                                        [ <strong>Registration {{\App\Libraries\UKCP::getKeyForToken($key)}}</strong> ]<br/>
+                                        [ <strong>Registration {{\App\Libraries\UKCP::getKeyForToken($key)}}</strong>
+                                        ]<br/>
                                         <strong>CREATED</strong>:
                                         <a class="tooltip_displays" href="#" data-toggle="tooltip"
                                            title="{{ $key->created_at }}">
@@ -427,7 +463,8 @@
                                 @empty
                                     <p>
                                         No keys found.</br>
-                                        <a class="btn btn-sm btn-info" href="{{ route('ukcp.token.refresh') }}">Create UKCP Token</a>
+                                        <a class="btn btn-sm btn-info" href="{{ route('ukcp.token.refresh') }}">Create
+                                            UKCP Token</a>
                                     </p>
                                 @endforelse
                             </div>

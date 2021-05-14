@@ -62,6 +62,7 @@ return [
             'connection' => env('QUEUE_CONNECTION', 'default'),
             'queue' => 'default',
             'retry_after' => 90,
+            'block_for' => 5,
         ],
 
     ],
@@ -78,6 +79,7 @@ return [
     */
 
     'failed' => [
+        'driver' => 'database-uuids',
         'database' => env('DB_CONNECTION', 'mysql'),
         'table' => 'jobs_failed',
     ],

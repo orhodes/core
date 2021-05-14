@@ -87,8 +87,7 @@ return [
     */
 
     'waits' => [
-        'redis:default' => 900,
-        'redis:user_sync' => 21600,
+        'redis:default' => 3600,
     ],
 
     /*
@@ -155,7 +154,7 @@ return [
     |
     */
 
-    'memory_limit' => 64,
+    'memory_limit' => 32,
 
     /*
     |--------------------------------------------------------------------------
@@ -172,21 +171,23 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['notifications', 'default', 'user_sync'],
+                'queue' => ['high', 'default'],
                 'balance' => 'auto',
                 'min-processes' => 1,
-                'max-processes' => 5,
-                'tries' => 3,
+                'max-processes' => 3,
+                'balanceMaxShift' => 1,
+                'balanceCooldown' => 15,
+                'tries' => 10,
             ],
         ],
 
         'local' => [
             '1' => [
                 'connection' => 'redis',
-                'queue' => ['notifications', 'default', 'user_sync'],
+                'queue' => ['high', 'default'],
                 'balance' => 'simple',
                 'processes' => 1,
-                'tries' => 3,
+                'tries' => 10,
             ],
         ],
     ],

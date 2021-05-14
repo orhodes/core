@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\Mship\AccountAltered;
 use App\Jobs\Middleware\RateLimited;
 use App\Models\Mship\Account;
 use App\Models\Mship\Qualification as QualificationData;
@@ -19,8 +20,6 @@ class UpdateMember extends Job implements ShouldQueue
 
     protected $accountID;
     protected $data;
-
-    public $queue = 'user_sync';
 
     /**
      * The number of times the job may be attempted.
@@ -51,6 +50,8 @@ class UpdateMember extends Job implements ShouldQueue
      */
     public function handle()
     {
+        $member = Account::firstOrNew([(new Account)->getKeyName() => $this->accountID]);
+
         try {
             $this->data = VatsimXML::getData($this->accountID, 'idstatusint');
         } catch (\Exception $e) {
@@ -66,8 +67,6 @@ class UpdateMember extends Job implements ShouldQueue
         if (! is_string($this->data->division)) {
             $this->data->division = '';
         }
-
-        $member = Account::firstOrNew([(new Account)->getKeyName() => $this->accountID]);
 
         // if member no longer exists, delete
         // else process update
@@ -101,6 +100,8 @@ class UpdateMember extends Job implements ShouldQueue
             $member = $this->processRating($member);
 
             $member->save();
+
+            event(new AccountAltered($member));
         }
 
         DB::commit();

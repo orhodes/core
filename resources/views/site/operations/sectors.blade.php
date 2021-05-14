@@ -56,7 +56,7 @@
             <div class="panel panel-ukblue">
                 <a class="panel-heading-link" role="button" data-toggle="collapse" href="#sectors-departing-ifr">
                     <div class="panel-heading">
-                        <i class="fa fa-plane" aria-hidden="true"></i> &thinsp; I am <strong>departing IFR</strong> from a UK airfield...
+                        <i class="fa fa-plane-departure" aria-hidden="true"></i> &thinsp; I am <strong>departing IFR</strong> from a UK airfield...
                         <i class="pull-right fa fa-arrow-down" aria-hidden="true"></i>
                     </div>
                 </a>
@@ -68,7 +68,7 @@
 
                     <ul>
                         <li>
-                            <strong>EGAA_R_APP</strong> - Belfast/Aldergrove (EGAA) and Belfast/City (EGAC)
+                            <strong>EGAA_APP</strong> - Belfast/Aldergrove (EGAA) and Belfast/City (EGAC)
                         </li>
                         <li>
                             <strong>EGGP_APP</strong> - Liverpool (EGGP) and Hawarden (EGNR)
@@ -77,7 +77,7 @@
                             <strong>EGJJ_C_APP</strong> - Jersey (EGJJ), Guernsey (EGJB) and Alderney (EGJA)
                         </li>
                         <li>
-                            <strong>EGNO_R_APP</strong> - Blackpool (EGNH) and Warton (EGNO)
+                            <strong>EGNO_APP</strong> - Blackpool (EGNH) and Warton (EGNO)
                         </li>
                         <li>
                             <strong>EGNT_APP</strong> - Newcastle (EGNT) and Teesside (EGNV)
@@ -123,19 +123,19 @@
 
                     <p style="margin-left: 40px">
                         <strong>Manchester (EGCC), Leeds (EGNM), Doncaster (EGCN), Humberside (EGNJ), Newcastle (EGNT), Teesside (EGNV)</strong><br>
-                        MAN_E_CTR (133.800) &#8594; MAN_CTR (118.775) &#8594; LON_N_CTR (133.700) &#8594; LON_CTR (127.825)
+                        MAN_E_CTR (133.800) &#8594; MAN_CTR (133.200) &#8594; LON_N_CTR (133.700) &#8594; LON_CTR (127.825)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>Liverpool (EGGP), Hawarden (EGNR), Isle of Man (EGNS), Blackpool (EGNH)</strong><br>
-                        MAN_W_CTR (128.050) &#8594; MAN_CTR (118.775) &#8594; LON_N_CTR (133.700) &#8594; LON_CTR (127.825)
+                        MAN_W_CTR (128.050) &#8594; MAN_CTR (133.200) &#8594; LON_N_CTR (133.700) &#8594; LON_CTR (127.825)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>East Midlands (EGNX), Birmingham (EGBB), Coventry (EGBE)</strong><br>
-                        LON_C_CTR (127.100) &#8594; LON_SC_CTR (132.600) &#8594; LON_CTR (127.825)
+                        LON_M_CTR (120.025) &#8594; LON_C_CTR (127.100) &#8594; LON_SC_CTR (132.600) &#8594; LON_CTR (127.825)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>London/Stansted (EGSS), London/Luton (EGGW), Cambridge (EGSC)</strong><br>
-                        LTC_NW_CTR (121.275) &#8594; LTC_N_CTR (119.775) &#8594; LTC_CTR (135.800) &#8594; LON_C_CTR (127.100) &#8594; LON_SC_CTR (132.600) &#8594; LON_CTR (127.825)
+                        LTC_NW_CTR (121.275) &#8594; LTC_N_CTR (119.775) &#8594; LTC_CTR (135.800) &#8594; LON_M_CTR (120.025) &#8594; LON_C_CTR (127.100) &#8594; LON_SC_CTR (132.600) &#8594; LON_CTR (127.825)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>London/Heathrow (EGLL), London/City (EGLC), Southend (EGMC), Biggin Hill (EGKB), Lydd (EGMD)</strong><br>
@@ -155,11 +155,11 @@
                     </p>
                     <p style="margin-left: 40px">
                         <strong>Edinburgh (EGPH), Glasgow (EGPF), Prestwick (EGPK)</strong><br>
-                        STC_CTR (126.300) &#8594; SCO_D_CTR (135.850) &#8594; SCO_WD_CTR (133.200) &#8594; SCO_S_CTR (134.775) &#8594; SCO_CTR (135.525)
+                        STC_CTR (126.300) &#8594; SCO_D_CTR (135.850) &#8594; SCO_WD_CTR (133.875) &#8594; SCO_S_CTR (134.775) &#8594; SCO_CTR (135.525)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>Belfast/Aldergrove (EGAA), Belfast/City (EGAC)</strong><br>
-                        STC_A_CTR (123.775) &#8594; SCO_R_CTR (129.100) &#8594; SCO_W_CTR (132.725) &#8594; SCO_WD_CTR (133.200) &#8594; SCO_CTR (135.525)
+                        STC_A_CTR (123.775) &#8594; SCO_R_CTR (129.100) &#8594; SCO_W_CTR (132.725) &#8594; SCO_WD_CTR (133.875) &#8594; SCO_CTR (135.525)
                     </p>
                     <p style="margin-left: 40px">
                         <strong>Aberdeen/Dyce (EGPD), Dundee (EGPN)</strong><br>
@@ -182,7 +182,7 @@
             <div class="panel panel-ukblue">
                 <a class="panel-heading-link" role="button" data-toggle="collapse" href="#sectors-arriving-transiting">
                     <div class="panel-heading">
-                        <i class="fa fa-map-o" aria-hidden="true"></i> &thinsp; I am <strong>arriving</strong> at a UK airfield… / I am <strong>transiting</strong> through UK airspace…
+                        <i class="fa fa-plane-arrival" aria-hidden="true"></i> &thinsp; I am <strong>arriving</strong> at a UK airfield… / <i class="fa fa-plane" aria-hidden="true"></i> I am <strong>transiting</strong> through UK airspace…
                         <i class="pull-right fa fa-arrow-down" aria-hidden="true"></i>
                     </div>
                 </a>
@@ -277,7 +277,7 @@
             <div class="panel panel-ukblue">
                 <a class="panel-heading-link" role="button" data-toggle="collapse" href="#sectors-vfr">
                     <div class="panel-heading">
-                        <i class="fa fa-paper-plane" aria-hidden="true"></i> &thinsp; I am flying <strong>VFR</strong> within UK airspace…
+                        <i class="fa fa-binoculars" aria-hidden="true"></i> &thinsp; I am flying <strong>VFR</strong> within UK airspace…
                         <i class="pull-right fa fa-arrow-down" aria-hidden="true"></i>
                     </div>
                 </a>
@@ -401,6 +401,9 @@
                     <ul>
                         <li>
                             LON_D_CTR
+                        </li>
+                        <li>
+                            LON_M_CTR
                         </li>
                         <li>
                             LON_E_CTR

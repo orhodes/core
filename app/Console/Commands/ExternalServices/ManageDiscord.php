@@ -3,10 +3,8 @@
 namespace App\Console\Commands\ExternalServices;
 
 use App\Console\Commands\Command;
-use App\Libraries\Discord;
-use App\Models\Discord\DiscordRole;
+use App\Jobs\Mship\SyncToDiscord;
 use App\Models\Mship\Account;
-use Illuminate\Support\Facades\Log;
 
 class ManageDiscord extends Command
 {
@@ -25,24 +23,6 @@ class ManageDiscord extends Command
      */
     protected $description = 'Ensure Discord users are in sync with VATSIM UK\'s data';
 
-    /** @var Discord */
-    protected $discord;
-
-    /** @var Account */
-    protected $account;
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct(Discord $discord)
-    {
-        parent::__construct();
-
-        $this->discord = $discord;
-    }
-
     /**
      * Execute the console command.
      *
@@ -50,70 +30,19 @@ class ManageDiscord extends Command
      */
     public function handle()
     {
-        $discordUsers = $this->getUsers();
+        $accounts = $this->getUsers() ?? collect();
 
-        if (! $discordUsers) {
-            $this->error('No users found.');
-            exit();
+        foreach ($accounts as $account) {
+            SyncToDiscord::dispatch($account);
         }
-
-        foreach ($discordUsers as $account) {
-            $this->account = $account;
-            $this->grantRoles();
-            $this->removeRoles();
-            $this->assignNickname();
-            sleep(1);
-        }
-
-        $this->info($discordUsers->count().' user(s) updated on Discord.');
-        Log::debug($discordUsers->count().' user(s) updated on Discord.');
     }
 
-    protected function getUsers()
+    private function getUsers()
     {
         if ($this->option('force')) {
-            return Account::where('id', $this->option('force'))->where('discord_id', '!=', null)->get();
+            return Account::whereNotNull('discord_id')->where('id', $this->option('force'))->lazy();
         }
 
-        return Account::where('discord_id', '!=', null)->get();
-    }
-
-    protected function assignNickname()
-    {
-        $this->discord->setNickname($this->account, $this->account->name);
-    }
-
-    protected function grantRoles()
-    {
-        $account = $this->account;
-        $discord = $this->discord;
-
-        $currentRoles = $discord->getUserRoles($account);
-
-        DiscordRole::all()->filter(function (DiscordRole $role) use ($account) {
-            return $account->hasPermissionTo($role->permission_id);
-        })->each(function (DiscordRole $role) use ($account, $discord, $currentRoles) {
-            if (! $currentRoles->contains($role->discord_id)) {
-                $discord->grantRoleById($account, $role->discord_id);
-                sleep(1);
-            }
-        });
-    }
-
-    protected function removeRoles()
-    {
-        $account = $this->account;
-        $discord = $this->discord;
-
-        $currentRoles = $discord->getUserRoles($account);
-
-        DiscordRole::all()->filter(function (DiscordRole $role) use ($account) {
-            return ! $account->hasPermissionTo($role->permission_id);
-        })->each(function (DiscordRole $role) use ($account, $discord, $currentRoles) {
-            if ($currentRoles->contains($role->discord_id)) {
-                $discord->removeRoleById($account, $role->discord_id);
-                sleep(1);
-            }
-        });
+        return Account::whereNotNull('discord_id')->lazy();
     }
 }
